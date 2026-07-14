@@ -16,7 +16,7 @@ export default function Footer() {
             <Link href="/"     className="footer-lnk">Home</Link>
             <Link href="/docs" className="footer-lnk">Docs</Link>
             <a href="https://github.com/scisamir/fiber-dev-kit" target="_blank" rel="noopener noreferrer" className="footer-lnk">GitHub ↗</a>
-            <a href="https://www.npmjs.com/package/@fiber-dev-kit/core" target="_blank" rel="noopener noreferrer" className="footer-lnk">npm ↗</a>
+            <a href="https://www.npmjs.com/package/@fiber-dev-kit/cli" target="_blank" rel="noopener noreferrer" className="footer-lnk">npm ↗</a>
             <a href="https://www.fiber.world" target="_blank" rel="noopener noreferrer" className="footer-lnk">Fiber Network ↗</a>
           </div>
         </div>

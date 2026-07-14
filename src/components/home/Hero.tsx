@@ -1,20 +1,21 @@
 import Link from "next/link";
-import { kw, str, fn, cmt, num } from "@/lib/syntax";
+import { kw, str, fn, cmt } from "@/lib/syntax";
 
 const LEFT = [
   `${cmt("// Raw JSON-RPC")}`,
   `${cmt("// Useful, but verbose for application")}`,
   `${cmt("// and test code.")}`,
   ``,
-  `const res = await fetch("http://localhost:8114", {`,
+  `const res = await fetch("http://127.0.0.1:8227", {`,
   `  method: "POST",`,
+  `  headers: { "content-type": "application/json" },`,
   `  body: JSON.stringify({`,
   `    jsonrpc: "2.0", id: 1,`,
   `    method: "send_payment",`,
   `    params: [{`,
-  `      payment_hash: "0xabc...",`,
-  `      amount: "0x3B9ACA00",`,
   `      target_pubkey: "0x02...",`,
+  `      amount: "0x3B9ACA00",`,
+  `      keysend: true,`,
   `    }]`,
   `  })`,
   `});`,
@@ -23,7 +24,7 @@ const LEFT = [
 ].join("\n");
 
 const RIGHT = [
-  `${kw("import")} { ${fn("FiberClient")}, ${fn("diagnose")} }`,
+  `${kw("import")} { ${fn("FiberClient")}, ${fn("FiberError")}, ${fn("diagnose")} }`,
   `  ${kw("from")} ${str('"@fiber-dev-kit/core"')}`,
   ``,
   `${kw("const")} node = ${kw("new")} ${fn("FiberClient")}({`,
@@ -34,9 +35,11 @@ const RIGHT = [
   `${kw("try")} {`,
   `  ${kw("await")} node.${fn("payInvoice")}(${str('"fibt1..."')});`,
   `} ${kw("catch")} (error) {`,
-  `  ${kw("const")} d = ${fn("diagnose")}(error);`,
-  `  console.log(d.code);`,
-  `  console.log(d.suggestion);`,
+  `  ${kw("if")} (${fn("FiberError.is")}(error)) {`,
+  `    ${kw("const")} d = ${fn("diagnose")}(error);`,
+  `    console.log(d.code);`,
+  `    console.log(d.suggestion);`,
+  `  }`,
   `}`,
 ].join("\n");
 
