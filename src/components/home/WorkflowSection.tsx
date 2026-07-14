@@ -1,10 +1,10 @@
 const BULLETS = [
-  "Start a single or multi-node Fiber test network with one command.",
+  "Start a single or multi-node Fiber test network without building Rust source.",
   "Use TypeScript helpers instead of hand-written JSON-RPC payloads.",
   "Write amounts as CKB numbers while the client handles shannon conversion.",
-  "Preflight payments before sending with route confidence reports.",
+  "Check route confidence from test-client before sending payments.",
   "Translate common payment failures into codes, summaries, and suggested fixes.",
-  "View node health, channels, wallet addresses, and recent payment traces locally.",
+  "View node health, channels, funding addresses, alerts, and recent payment traces locally.",
 ];
 
 export default function WorkflowSection() {
@@ -15,9 +15,10 @@ export default function WorkflowSection() {
         <h2 className="section-title">From local nodes to payment diagnostics.</h2>
         <p className="section-sub">
           Fiber Dev Kit adds the local development layer around Fiber nodes. The CLI
-          handles local node setup, core provides typed RPC and diagnostics, test-client
-          verifies payment behavior and route confidence, and inspector gives operators a
-          local dashboard for health, channels, node wallet addresses, alerts, and payment traces.
+          handles local node setup, funding guidance, channels, payments, and diagnostics.
+          Core provides typed RPC and diagnostics, test-client verifies payment behavior
+          and route confidence, and inspector gives operators a local dashboard for health,
+          channels, node funding addresses, alerts, and payment traces.
         </p>
         <div className="bullets">
           {BULLETS.map(b => (

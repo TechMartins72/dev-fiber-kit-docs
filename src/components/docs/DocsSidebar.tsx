@@ -12,11 +12,11 @@ const NAV = [
     { id:"core-events",      label:"FiberEventClient"    },
     { id:"core-diagnose",    label:"diagnose()"          },
     { id:"core-alerts",      label:"evaluateAlerts()"    },
-    { id:"core-confidence",  label:"routeConfidence()"   },
     { id:"core-utils",       label:"Amount utilities"    },
   ]},
   { head: "@fiber-dev-kit/test-client", links: [
     { id:"tc-network",   label:"FiberNetwork"         },
+    { id:"tc-confidence",label:"routeConfidence()"     },
     { id:"tc-assert",    label:"Assertions"           },
     { id:"tc-simulate",  label:"Failure simulations"  },
   ]},

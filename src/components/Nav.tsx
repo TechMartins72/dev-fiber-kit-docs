@@ -7,7 +7,7 @@ export default function Nav() {
   const path = usePathname();
   const [copied, setCopied] = useState(false);
   const copy = () => {
-    navigator.clipboard?.writeText("npm install @fiber-dev-kit/core");
+    navigator.clipboard?.writeText("npm install -g @fiber-dev-kit/cli@0.1.0");
     setCopied(true); setTimeout(() => setCopied(false), 2000);
   };
   return (
@@ -24,7 +24,7 @@ export default function Nav() {
             <path d="M11 1H3a1 1 0 00-1 1v10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
             <rect x="5" y="4" width="9" height="11" rx="1" stroke="currentColor" strokeWidth="1.5"/>
           </svg>
-          {copied ? <span style={{color:"var(--tea)"}}>copied!</span> : "npm i @fiber-dev-kit/core"}
+          {copied ? <span style={{color:"var(--tea)"}}>copied!</span> : "npm i -g @fiber-dev-kit/cli@0.1.0"}
         </button>
       </div>
     </nav>

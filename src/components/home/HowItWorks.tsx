@@ -1,21 +1,26 @@
-import { kw, str, fn, cmt, num } from "@/lib/syntax";
+import { kw, str, fn, num } from "@/lib/syntax";
 
 const STEPS = [
   {
-    num: "1", title: "Start local nodes",
-    sub: "Install the CLI and spin up a two-node local network with a funded channel. No Rust toolchain, no config files.",
-    code: `npm install -g @fiber-dev-kit/cli\nfiber start --nodes 2 --channel 200\nfiber status --watch`,
-    label: "bash",
+    num: "1", title: "Start and fund local nodes",
+    sub: "Install the CLI, start two local nodes, then fund their generated testnet addresses before opening a channel.",
+    code: [
+      `npm install -g @fiber-dev-kit/cli@0.1.0`,
+      `fiber start --nodes 2`,
+      `fiber accounts`,
+      `# fund node-a and node-b from the faucet`,
+      `fiber balance`,
+      `fiber channel open --node a --peer <node-b-pubkey> --amount 200 --wait 180`,
+    ].join("\n"),
   },
   {
     num: "2", title: "Inspect and debug",
-    sub: "Open the local dashboard to view node health, channels, wallet funding addresses, alerts, and payment traces.",
-    code: `npm install -g @fiber-dev-kit/inspector\nfiber-dev-kit-inspector`,
-    label: "bash",
+    sub: "Open the local dashboard from the CLI to view node health, channels, funding addresses, alerts, and payment traces.",
+    code: `fiber inspect\n# open the printed browser URL`,
   },
   {
-    num: "3", title: "Preflight payments in code",
-    sub: "Use test-client to check route confidence before sending, then assert payment outcomes in CI or local test runs.",
+    num: "3", title: "Preflight and assert payments",
+    sub: "Use test-client to check route confidence, send a payment, then assert the final payment status in CI or local test runs.",
     code: [
       `${kw("import")} { ${fn("FiberNetwork")} }`,
       `  ${kw("from")} ${str('"@fiber-dev-kit/test-client"')}`,
@@ -29,8 +34,10 @@ const STEPS = [
       `${kw("const")} recipient = ${kw("await")} network.${fn("pubkeyOf")}(${str('"b"')});`,
       `${kw("const")} report = ${kw("await")} network.${fn("node")}(${str('"a"')})`,
       `  .${fn("routeConfidence")}({ to: recipient, amount: ${num("1")} });`,
+      `${kw("if")} (!report.canPay) ${kw("throw")} ${kw("new")} Error(report.suggestions[${num("0")}]);`,
+      `${kw("const")} payment = ${kw("await")} network.${fn("pay")}(${str('"a"')}, ${str('"b"')}, ${num("1")});`,
+      `${kw("await")} network.${fn("node")}(${str('"a"')}).${fn("assertPaid")}(payment.payment_hash);`,
     ].join("\n"),
-    label: "ts",
   },
 ];
 
@@ -41,7 +48,7 @@ export default function HowItWorks() {
         <div className="eyebrow">Getting started</div>
         <h2 className="section-title">Try a local Fiber payment in three steps.</h2>
         <div className="steps">
-          {STEPS.map(({ num, title, sub, code, label }) => (
+          {STEPS.map(({ num, title, sub, code }) => (
             <div key={num} className="step">
               <div className="step-num">{num}</div>
               <div className="step-title">{title}</div>
